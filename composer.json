@@ -23,7 +23,7 @@
         "laravel": {
             "providers": [
                 "OlegKravets\\LaravelRedisService\\Console\\Commands\\ListenServiceCommand"
-            ],
+            ]
         }
-    },
+    }
 }
