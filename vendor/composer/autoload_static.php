@@ -83,6 +83,7 @@ class ComposerStaticInit9aa001f9c27a6fa7ba145a0bb4f8b31c
         'O' => 
         array (
             'Opis\\Closure\\' => 13,
+            'OlegKravets\\LaravelRedisService\\' => 32,
         ),
         'M' => 
         array (
@@ -272,6 +273,10 @@ class ComposerStaticInit9aa001f9c27a6fa7ba145a0bb4f8b31c
         'Opis\\Closure\\' => 
         array (
             0 => __DIR__ . '/..' . '/opis/closure/src',
+        ),
+        'OlegKravets\\LaravelRedisService\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
         'Monolog\\' => 
         array (
