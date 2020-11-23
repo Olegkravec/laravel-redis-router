@@ -1,16 +1,14 @@
 <?php
 
-namespace OlegKravets\LaravelRedisService\Console\Commands;
+namespace OlegKravets\LaravelRedisService\Commands;
 
-use OlegKravets\LaravelRedisService\Controllers\RedisCommandController;
 use OlegKravets\LaravelRedisService\ServiceHandlers\InboundStream;
-use App\ServiceHandlers\OutboundStream;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Redis;
+use OlegKravets\LaravelRedisService\ServiceHandlers\OutboundStream;
 use RedisClient\Exception\InvalidArgumentException;
 
-class ListenUsersCommand extends Command
+class ListenServiceCommand extends Command
 {
     /**
      * The name and signature of the console command.
