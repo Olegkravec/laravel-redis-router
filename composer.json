@@ -22,7 +22,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "OlegKravets\\LaravelRedisService\\ListenServiceCommand"
+                "OlegKravets\\LaravelRedisService\\RedisServiceProvider"
             ]
         }
     }
