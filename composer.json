@@ -1,0 +1,22 @@
+{
+    "name": "olegkravec/laravel-redis-router",
+    "description": "Redis Pub/Sub router for Laravel",
+    "type": "library",
+    "require": {
+        "php": ">=7.3.0",
+        "cheprasov/php-redis-client": "^1.10",
+        "predis/predis": "^1.1",
+        "laravel/framework": "^8.0"
+    },
+    "authors": [
+        {
+            "name": "Oleg Kravets",
+            "email": "o.kravets@evnedev.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "OlegKravets\\LaravelRedisService\\": "src/"
+        }
+    }
+}
