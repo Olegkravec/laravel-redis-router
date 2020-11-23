@@ -18,5 +18,12 @@
         "psr-4": {
             "OlegKravets\\LaravelRedisService\\": "src/"
         }
-    }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "OlegKravets\\LaravelRedisService\\Console\\Commands\\ListenServiceCommand"
+            ],
+        }
+    },
 }
