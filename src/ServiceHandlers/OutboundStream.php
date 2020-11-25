@@ -72,6 +72,53 @@ class OutboundStream
     }
 
     /**
+     * Request some data from another redis handled services
+     *
+     * @param string $req_channel
+     * @param string $req_method
+     * @param string $req_message
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    public function sync_request(string $req_channel, string $req_method, string $req_message){
+        $response_handler = new InboundStream(3);
+        $packet_id = Str::uuid();
+        $out_stream = $this->connection;
+        if(strpos($req_channel, "*") !== false){
+            $req_channel = str_replace("*", $packet_id, $req_channel);
+        }
+        $time = microtime(true);
+        $response = NULL;
+        $response_handler->subscribe($req_channel,
+            static function($type, $pattern, $channel, $message) use
+            ($req_channel, &$response, $req_message, $req_method, $out_stream) {
+
+                if ($type === 'psubscribe'){
+                    /**
+                     * Publishing our request once we have been joined to channel
+                     */
+                    $out_stream->publish($req_channel, "request||$req_method||$req_message");
+                }
+                elseif ($type === 'pmessage') {
+                    if ($message === 'quit')
+                        return false;
+
+                    /**
+                     * Calling our callback with no-transform response model
+                     */
+                    $response = explode("||", $message,2);
+                    if($response[0] === "response" and $req_channel === $channel){
+                        $response = ($response[1]);
+                        return false;
+                    }
+                }
+                return true;
+            });
+        while ($response === NULL){ /** Instead of mutex implementation*/ }
+        return $response;
+    }
+
+    /**
      * Uses only for returning from redis handled service to request-service
      * @param string $channel
      * @param $message
