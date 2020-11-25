@@ -1,4 +1,5 @@
 <?php
+namespace OlegKravets\LaravelRedisService;
 
 use Illuminate\Support\ServiceProvider;
 use OlegKravets\LaravelRedisService;
