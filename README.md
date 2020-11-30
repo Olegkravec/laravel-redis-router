@@ -32,6 +32,9 @@ That's mean that Service A will subscribe for {users} channel.
 **Patter for creation:** {SERVICE_NAME}RedisController
 For example: for notification service we must register ***NotificationRedisController***... eg...
 
+
+
+
 ### Step 3 - implementing first method for Service A
 
 ```
@@ -87,3 +90,26 @@ In your console you will see:
 
 Response is `JSON` object with your data.
 
+### How it looks in Redis Monitor
+```
+SERVICE A - "PSUBSCRIBE" "users:*"
+SERVICE B - "PSUBSCRIBE" "users:322d3a41-c34c-46fe-aa7f-c3aff180a569"
+SERVICE B - "PUBLISH" "users:6efc4e14-6679-49d9-be16-97246e02d32b" "request||where||[[\"id\",\"!=\",-65535]]"
+SERVICE A - "PUBLISH" "users:6efc4e14-6679-49d9-be16-97246e02d32b" "response||[{\"id\":2,\"name\":\"Nayeli Kulas\",\"email\":\"dare.edgar@example.com\",\"email_verified_at\":\"2020-10-20T13:48:39.000000Z\",\"password\":\"\",\"created_at\":\"2020-10-20T13:48:39.000000Z\",\"updated_at\":\"2020-10-20T13:48:39.000000Z\"}]
+SERVICE B - "PUNSUBSCRIBE" "users:6efc4e14-6679-49d9-be16-97246e02d32b"
+```
+1. Service A subscribes to all ```users``` channel with all package IDs.
+2. Service B creates package `322d3a41-c34c-46fe-aa7f-c3aff180a569` and subscibes to it's channel
+3. Service B sends to package's channel request `request||where||[[\"id\",\"!=\",-65535]]`
+4. Service A, that parsed request calls method `where` firstly in Controller, in if not present in bound Model, generates Collection of response.
+5. Generated response Service A sends to needed channel.
+6. Service B unsubscribes package's channel.
+
+Each package should have id, and as we cannot implement numerical inctementing id we just create UUID(for ex.: 322d3a41-c34c-46fe-aa7f-c3aff180a569)
+
+### How is Protocol looks
+
+`request||where||[[\"id\",\"!=\",-65535]]`
+this string means that received redis Pub event is actually 'Request', and within it's Controller we should call 'where' method, with arguments '\[\[\"id\",\"!=\",-65535]]'
+
+Argument can be not one, for example: `request||where||api_token||12345_token`
