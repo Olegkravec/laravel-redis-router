@@ -35,10 +35,14 @@ class RedisCommandController
         if($request_type === "response")
             return NULL;
 
+
         // TODO: Defining different routes within of controller classes
         if(method_exists(static::class, $method_name)){ // Search method in current controller
             // Call current controller method with present args
-            $response = call_user_func([static::class, $method_name], (count($packet_rules) === 1) ? array_values($packet_rules)[0] : array_values($packet_rules));
+            if(count($packet_rules) === 1){
+                $response = call_user_func([static::class, $method_name], array_values($packet_rules)[0]);
+            }else
+                $response = call_user_func([static::class, $method_name], ...array_values($packet_rules));
         }else{ // If controller doesnt have method that we need - search method in bound model
             $is_nested = false;
             // If request payload contain "[['id','=',1]]" that's mean that this is nested request, that must be deserialized
