@@ -3,7 +3,7 @@
     "description": "Redis Pub/Sub router for Laravel",
     "type": "library",
     "require": {
-        "php": ">=7.3.0",
+        "php": "*",
         "cheprasov/php-redis-client": "^1.10",
         "predis/predis": "^1.1",
         "laravel/framework": "^8.0",
