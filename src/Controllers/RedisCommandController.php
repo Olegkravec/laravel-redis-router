@@ -55,6 +55,14 @@ class RedisCommandController
                 // Whering and getting bound model's method as a nested request
                 return new Collection($model::where($packet_rules)->get());
             }
+            if((str_starts_with(array_values($packet_rules)[0], "{") and
+                    str_ends_with(array_values($packet_rules)[0], "}"))
+                or
+                (str_starts_with(array_values($packet_rules)[0], "[{") and
+                    str_ends_with(array_values($packet_rules)[0], "}]"))
+            ){
+                $packet_rules = json_decode(array_values($packet_rules)[0], true);
+            }
 
             // Call bound model's method with prepared args
             $response = call_user_func_array([static::$bind_model, $method_name], array_values($packet_rules));
