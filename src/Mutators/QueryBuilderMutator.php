@@ -22,14 +22,27 @@ use OlegKravets\LaravelRedisService\ServiceHandlers\OutboundStream;
 
 class QueryBuilderMutator extends Builder
 {
+    /**
+     * @var string
+     */
     public $_service_channel = "default:*";
+    /**
+     * @var null
+     */
+    public $model = null;
 
     /**
      * @var OutboundStream
      */
     public $service_connection = null;
 
+    /**
+     * @var bool
+     */
     private $is_nested_req = false;
+    /**
+     * @var array
+     */
     private $nested_req = [];
 
 
@@ -110,7 +123,7 @@ class QueryBuilderMutator extends Builder
         return new Collection(json_decode($this->service_connection->sync_request(
             $this->_service_channel,
             'update',
-            ''.json_encode($model)
+            ''.json_encode($this->model)
         ), true, 512, JSON_THROW_ON_ERROR));
     }
 

@@ -24,7 +24,7 @@ trait UsesRedisService
         if (!isset($this->_service_channel)) {
             throw new Exception("Model does not contain service channel");
         }
-
+        $builder->model=$this->toArray();
         $builder->_service_channel = $this->_service_channel;
         $builder->service_connection = new OutboundStream();
         return $builder;
